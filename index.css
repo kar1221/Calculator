@@ -85,7 +85,7 @@ body {
   box-shadow: 0 6px 0 0 #b76021;
 }
 
-.key:active {
+.key.active {
   box-shadow: none;
   transform: translateY(6px);
 }
