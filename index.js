@@ -130,3 +130,36 @@ for (const button of buttons) {
     onButtonClick(event.target.textContent);
   });
 }
+
+document.addEventListener("keydown", (event) => {
+  event.preventDefault();
+  const key = event.key;
+  console.log(key);
+
+  if (key === "Enter") {
+    onButtonClick("=");
+    return;
+  }
+
+  if (key === "Escape") {
+    onButtonClick("AC");
+    return;
+  }
+
+  if (key === "Backspace") {
+    onButtonClick("Del");
+    return;
+  }
+
+  if (key === "*") {
+    onButtonClick("×");
+    return;
+  }
+
+  if (key === "/") {
+    onButtonClick("÷");
+    return;
+  }
+
+  onButtonClick(key);
+});
