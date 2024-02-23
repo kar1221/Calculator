@@ -4,6 +4,15 @@ let operator;
 let completeCalculation = false;
 
 function onButtonClick(value) {
+  for (const button of buttons) {
+    if (button.textContent === value) {
+      button.classList.add("active");
+      setTimeout(() => {
+        button.classList.remove("active");
+      }, 100);
+    }
+  }
+
   if (isNaN(value)) {
     handleSymbol(value);
   } else {
@@ -51,6 +60,12 @@ function handleSymbol(symbol) {
       emptyOverview();
       break;
     case ".":
+      if (completeCalculation) {
+        displayValue = "0.";
+        completeCalculation = false;
+        return;
+      }
+
       if (!displayValue.includes(".")) {
         displayValue += ".";
       }
