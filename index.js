@@ -146,23 +146,15 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  let key = convertKeyboardKeyToSpecialKey(event.key);
+  const key = convertKeyboardKeyToSpecialKey(event.key);
 
-  for (const button of buttons) {
-    if (button.textContent === key) {
-      button.classList.add("active");
-    }
-  }
+  getTargetButton(key).classList.add("active");
 });
 
 document.addEventListener("keyup", (event) => {
-  let key = convertKeyboardKeyToSpecialKey(event.key);
+  const key = convertKeyboardKeyToSpecialKey(event.key);
 
-  for (const button of buttons) {
-    if (button.textContent === key) {
-      button.classList.remove("active");
-    }
-  }
+  getTargetButton(key).classList.remove("active");
 });
 
 function convertKeyboardKeyToSpecialKey(key) {
@@ -179,5 +171,11 @@ function convertKeyboardKeyToSpecialKey(key) {
       return "÷";
     default:
       return key;
+  }
+}
+
+function getTargetButton(buttonText) {
+  for (const button of buttons) {
+    if (button.textContent === buttonText) return button;
   }
 }
