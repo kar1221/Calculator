@@ -4,15 +4,6 @@ let operator;
 let completeCalculation = false;
 
 function onButtonClick(value) {
-  for (const button of buttons) {
-    if (button.textContent === value) {
-      button.classList.add("active");
-      setTimeout(() => {
-        button.classList.remove("active");
-      }, 100);
-    }
-  }
-
   if (isNaN(value)) {
     handleSymbol(value);
   } else {
@@ -128,11 +119,12 @@ function updateDisplay(value) {
   const displayPanel = document.getElementById("display");
   if (value === "Infinity" || value === "NaN") {
     displayPanel.textContent = "ಠ_ಠ";
+    completeCalculation = true;
     return;
   }
 
   if (value.length > 10) {
-    displayPanel.textContent = value.slice(0, 9) + "...";
+    displayPanel.textContent = parseInt(value).toExponential(2);
     return;
   }
 
@@ -148,33 +140,44 @@ for (const button of buttons) {
 
 document.addEventListener("keydown", (event) => {
   event.preventDefault();
-  const key = event.key;
-  console.log(key);
-
-  if (key === "Enter") {
-    onButtonClick("=");
-    return;
-  }
-
-  if (key === "Escape") {
-    onButtonClick("AC");
-    return;
-  }
-
-  if (key === "Backspace") {
-    onButtonClick("Del");
-    return;
-  }
-
-  if (key === "*") {
-    onButtonClick("×");
-    return;
-  }
-
-  if (key === "/") {
-    onButtonClick("÷");
-    return;
-  }
+  const key = convertKeyboardKeyToSpecialKey(event.key);
 
   onButtonClick(key);
 });
+
+document.addEventListener("keydown", (event) => {
+  let key = convertKeyboardKeyToSpecialKey(event.key);
+
+  for (const button of buttons) {
+    if (button.textContent === key) {
+      button.classList.add("active");
+    }
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  let key = convertKeyboardKeyToSpecialKey(event.key);
+
+  for (const button of buttons) {
+    if (button.textContent === key) {
+      button.classList.remove("active");
+    }
+  }
+});
+
+function convertKeyboardKeyToSpecialKey(key) {
+  switch (key) {
+    case "Enter":
+      return "=";
+    case "Escape":
+      return "AC";
+    case "Backspace":
+      return "Del";
+    case "*":
+      return "×";
+    case "/":
+      return "÷";
+    default:
+      return key;
+  }
+}
